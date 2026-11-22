@@ -76,8 +76,7 @@ fun LoginResponse.toDomain(): Sesion {
     return Sesion(
         token = access,
         usuario = userStr,
-        rol = Rol.fromString(rolStr),
-        firebaseToken = firebaseToken
+        rol = Rol.fromString(rolStr)
     )
 }
 

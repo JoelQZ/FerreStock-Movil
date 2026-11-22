@@ -1,5 +1,6 @@
 package pe.ferrestock.app.ui.inicio
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import pe.ferrestock.app.AppContainer
+import pe.ferrestock.app.data.avisos.NotificadorAndroid
 import pe.ferrestock.app.data.repository.CajaRepository
 import pe.ferrestock.app.data.repository.ProductoRepository
 import pe.ferrestock.app.data.repository.ReporteRepository
@@ -22,7 +24,8 @@ import java.time.format.DateTimeFormatter
 class InicioViewModel(
     private val reporteRepository: ReporteRepository,
     private val cajaRepository: CajaRepository,
-    private val productoRepository: ProductoRepository
+    private val productoRepository: ProductoRepository,
+    private val notificador: ((String, String) -> Unit)? = null
 ) : ViewModel() {
 
     private val _periodo = MutableStateFlow(Periodo.HOY)
@@ -71,6 +74,19 @@ class InicioViewModel(
             val turnosConDiferencia = turnos.filter { (it.diferencia ?: 0.0) != 0.0 }
             val productosStockBajoCount = productos.count { it.stock <= it.stockMinimo }
 
+            if (turnosConDiferencia.isNotEmpty()) {
+                notificador?.invoke(
+                    "Alerta de Caja - Descuadre",
+                    "Se detectaron ${turnosConDiferencia.size} turnos cerrados con diferencias monetarias."
+                )
+            }
+            if (productosStockBajoCount > 0) {
+                notificador?.invoke(
+                    "Alerta de Inventario - Stock Bajo",
+                    "Hay $productosStockBajoCount productos con stock igual o inferior al mínimo."
+                )
+            }
+
             _estado.value = UiState.Exito(
                 InicioEstado(
                     resumen = resumen,
@@ -103,13 +119,19 @@ class InicioViewModel(
         }
     }
 
-    class Factory(private val container: AppContainer) : ViewModelProvider.Factory {
+    class Factory(
+        private val context: Context,
+        private val container: AppContainer
+    ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return InicioViewModel(
                 reporteRepository = container.reporteRepository,
                 cajaRepository = container.cajaRepository,
-                productoRepository = container.productoRepository
+                productoRepository = container.productoRepository,
+                notificador = { title, message ->
+                    NotificadorAndroid.enviarNotificacion(context.applicationContext, title, message)
+                }
             ) as T
         }
     }

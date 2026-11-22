@@ -13,7 +13,6 @@ data class LoginRequest(
 data class LoginResponse(
     val access: String,
     val refresh: String? = null,
-    @SerialName("firebase_token") val firebaseToken: String? = null,
     val usuario: String? = null,
     val username: String? = null,
     val rol: String? = null,
