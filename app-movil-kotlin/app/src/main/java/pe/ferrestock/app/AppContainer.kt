@@ -31,7 +31,8 @@ class AppContainer(context: Context) {
     val productoRepository: ProductoRepository by lazy {
         ProductoRepositoryImpl(
             apiService = RetrofitClient.apiService,
-            productoDao = database.productoDao()
+            productoDao = database.productoDao(),
+            sincronizacionDao = database.sincronizacionDao()
         )
     }
 
@@ -44,7 +45,11 @@ class AppContainer(context: Context) {
     }
 
     val inventarioRepository: InventarioRepository by lazy {
-        InventarioRepositoryImpl(RetrofitClient.apiService)
+        InventarioRepositoryImpl(
+            apiService = RetrofitClient.apiService,
+            prediccionDao = database.prediccionDao(),
+            sincronizacionDao = database.sincronizacionDao()
+        )
     }
 
     val usuarioRepository: UsuarioRepository by lazy {

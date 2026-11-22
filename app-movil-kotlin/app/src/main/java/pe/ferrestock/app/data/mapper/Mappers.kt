@@ -1,5 +1,6 @@
 package pe.ferrestock.app.data.mapper
 
+import pe.ferrestock.app.data.local.entity.PrediccionEntity
 import pe.ferrestock.app.data.local.entity.ProductoEntity
 import pe.ferrestock.app.data.remote.dto.LoginResponse
 import pe.ferrestock.app.data.remote.dto.MetodoPagoDto
@@ -169,6 +170,33 @@ fun VentaDto.aVista(): VentaVista {
         total = total.toDoubleOrNull() ?: 0.0,
         estado = estado,
         usuarioNombre = user
+    )
+}
+
+fun PrediccionDto.toEntity(): PrediccionEntity {
+    val pid = productoId ?: producto ?: 0
+    return PrediccionEntity(
+        productoId = pid,
+        productoCodigo = productoCodigo,
+        productoNombre = productoNombre,
+        stockActual = stockActual,
+        stockMinimo = stockMinimo,
+        demandaEstimada = demandaEstimada,
+        diasParaAgotarse = diasParaAgotarse,
+        cantidadSugerida = cantidadSugerida
+    )
+}
+
+fun PrediccionEntity.aVista(): PrediccionVista {
+    return PrediccionVista(
+        productoId = productoId,
+        productoCodigo = productoCodigo,
+        productoNombre = productoNombre,
+        stockActual = stockActual,
+        stockMinimo = stockMinimo,
+        demandaEstimada = demandaEstimada,
+        diasParaAgotarse = diasParaAgotarse,
+        cantidadSugerida = cantidadSugerida
     )
 }
 

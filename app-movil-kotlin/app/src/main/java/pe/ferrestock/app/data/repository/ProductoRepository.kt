@@ -6,4 +6,5 @@ import pe.ferrestock.app.domain.model.Producto
 interface ProductoRepository {
     fun getProductos(): Flow<List<Producto>>
     suspend fun refrescar(): Result<Unit>
+    fun getUltimaSincronizacion(): Flow<String?>
 }
