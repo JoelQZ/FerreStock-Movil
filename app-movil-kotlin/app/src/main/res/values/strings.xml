@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FerreStock</string>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_caja">Caja</string>
+    <string name="nav_stock">Stock</string>
+    <string name="nav_recibir">Recibir</string>
+    <string name="nav_mas">Más</string>
+</resources>
