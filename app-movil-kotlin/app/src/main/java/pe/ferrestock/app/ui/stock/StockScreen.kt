@@ -1,7 +1,6 @@
 package pe.ferrestock.app.ui.stock
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,24 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Sync
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import pe.ferrestock.app.domain.model.PrediccionVista
@@ -53,12 +43,11 @@ private enum class FiltroStock(val texto: String) {
 fun StockScreen(
     estado: UiState<StockEstado>,
     onProducto: (Int) -> Unit,
-    onSincronizar: () -> Unit,
-    onReintentar: () -> Unit
+    onReintentar: () -> Unit,
+    onMenu: () -> Unit
 ) {
     var filtro by rememberSaveable { mutableStateOf(FiltroStock.TODOS) }
     var busqueda by rememberSaveable { mutableStateOf("") }
-    var menuAbierto by remember { mutableStateOf(false) }
     val datosActuales = (estado as? UiState.Exito)?.datos
     val subtitulo = datosActuales?.let { datos ->
         listOfNotNull("${datos.productos.size} productos", datos.ultimaSincronizacion?.let { "sincronizado $it" })
@@ -66,23 +55,7 @@ fun StockScreen(
     }
 
     Column(Modifier.fillMaxSize()) {
-        Encabezado("Stock", subtitulo) {
-            Box {
-                IconButton(onClick = { menuAbierto = true }) {
-                    Icon(Icons.Outlined.MoreVert, contentDescription = "Más opciones", tint = Color.White)
-                }
-                DropdownMenu(expanded = menuAbierto, onDismissRequest = { menuAbierto = false }) {
-                    DropdownMenuItem(
-                        text = { Text("Sincronizar") },
-                        leadingIcon = { Icon(Icons.Outlined.Sync, contentDescription = null) },
-                        onClick = {
-                            menuAbierto = false
-                            onSincronizar()
-                        }
-                    )
-                }
-            }
-        }
+        Encabezado("Stock", subtitulo, onMenu = onMenu)
         Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Buscador(busqueda, { busqueda = it })
             ChipsFiltro(FiltroStock.entries, filtro, { it.texto }, { filtro = it })

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +28,7 @@ fun Encabezado(
     titulo: String,
     subtitulo: String? = null,
     onVolver: (() -> Unit)? = null,
+    onMenu: (() -> Unit)? = null,
     acciones: @Composable RowScope.() -> Unit = {}
 ) {
     Row(
@@ -34,13 +36,17 @@ fun Encabezado(
             .fillMaxWidth()
             .background(Carbon)
             .statusBarsPadding()
-            .padding(start = if (onVolver == null) 16.dp else 4.dp, end = 4.dp, top = 10.dp, bottom = 10.dp)
+            .padding(start = if (onVolver == null && onMenu == null) 16.dp else 4.dp, end = 4.dp, top = 10.dp, bottom = 10.dp)
             .heightIn(min = 52.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (onVolver != null) {
             IconButton(onClick = onVolver) {
                 Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Volver", tint = Color.White)
+            }
+        } else if (onMenu != null) {
+            IconButton(onClick = onMenu) {
+                Icon(Icons.Outlined.Menu, contentDescription = "Menú", tint = Color.White)
             }
         }
         Column(Modifier.weight(1f)) {

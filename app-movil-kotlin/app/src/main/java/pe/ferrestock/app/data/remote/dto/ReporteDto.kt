@@ -21,7 +21,7 @@ data class ResumenReporteDto(
 data class ReporteVentasDto(
     @SerialName("cantidad_ventas") val cantidadVentas: Int? = null,
     @SerialName("cant_ventas") val cantVentas: Int? = null,
-    val total: String? = "0.00",
+    val total: String? = null,
     @SerialName("por_metodo_pago") val porMetodoPago: List<MetodoPagoDto> = emptyList(),
     val resumen: ResumenReporteDto? = null
 )
@@ -32,7 +32,7 @@ data class ProductoMasVendidoDto(
     val producto: Int? = null,
     val codigo: String = "",
     val nombre: String = "",
-    @SerialName("cantidad_vendida") val cantidadVendida: Int = 0,
+    @SerialName("cantidad_vendida") @Serializable(with = EnteroFlexible::class) val cantidadVendida: Int = 0,
     @SerialName("total_vendido") val totalVendido: String = "0.00"
 )
 

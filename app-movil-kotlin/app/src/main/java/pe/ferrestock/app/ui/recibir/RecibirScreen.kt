@@ -82,10 +82,11 @@ private class LineaEditable(val producto: Producto, cantidad: String, costo: Str
 fun RecibirScreen(
     estado: UiState<RecibirEstado>,
     onRegistrar: (IngresoBorrador) -> Unit,
-    onReintentar: () -> Unit
+    onReintentar: () -> Unit,
+    onMenu: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
-        Encabezado("Recibir", "Ingreso de mercadería")
+        Encabezado("Recibir", "Ingreso de mercadería", onMenu = onMenu)
         ContenidoSegunEstado(estado, onReintentar) { datos -> FormularioIngreso(datos, onRegistrar) }
     }
 }

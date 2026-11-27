@@ -12,7 +12,7 @@ data class UsuarioDto(
     val usuario: String? = null,
     val username: String? = null,
     @SerialName("rol_nombre") val rolNombre: String? = null,
-    val rol: String? = null,
+    @Serializable(with = TextoFlexible::class) val rol: String? = null,
     val estado: Boolean = true,
     @SerialName("is_active") val isActive: Boolean? = null,
     @SerialName("last_login") val lastLogin: String? = null

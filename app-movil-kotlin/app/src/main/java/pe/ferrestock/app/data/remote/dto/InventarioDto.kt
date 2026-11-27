@@ -9,11 +9,11 @@ data class PrediccionDto(
     @SerialName("producto_id") val productoId: Int? = null,
     @SerialName("producto_codigo") val productoCodigo: String = "",
     @SerialName("producto_nombre") val productoNombre: String = "",
-    @SerialName("stock_actual") val stockActual: Int = 0,
-    @SerialName("stock_minimo") val stockMinimo: Int = 0,
-    @SerialName("demanda_estimada") val demandaEstimada: Int = 0,
-    @SerialName("dias_para_agotarse") val diasParaAgotarse: Int = 0,
-    @SerialName("cantidad_sugerida") val cantidadSugerida: Int = 0
+    @SerialName("stock_actual") @Serializable(with = EnteroFlexible::class) val stockActual: Int = 0,
+    @SerialName("stock_minimo") @Serializable(with = EnteroFlexible::class) val stockMinimo: Int = 0,
+    @SerialName("demanda_estimada") @Serializable(with = EnteroFlexible::class) val demandaEstimada: Int = 0,
+    @SerialName("dias_para_agotarse") @Serializable(with = EnteroFlexible::class) val diasParaAgotarse: Int = 0,
+    @SerialName("cantidad_sugerida") @Serializable(with = EnteroFlexible::class) val cantidadSugerida: Int = 0
 )
 
 @Serializable
@@ -21,12 +21,12 @@ data class MovimientoKardexDto(
     val producto: Int = 0,
     @SerialName("producto_id") val productoId: Int? = null,
     val tipo: String = "",
-    val cantidad: Int = 0,
-    @SerialName("stock_anterior") val stockAnterior: Int = 0,
-    @SerialName("stock_nuevo") val stockNuevo: Int = 0,
+    @Serializable(with = EnteroFlexible::class) val cantidad: Int = 0,
+    @SerialName("stock_anterior") @Serializable(with = EnteroFlexible::class) val stockAnterior: Int = 0,
+    @SerialName("stock_nuevo") @Serializable(with = EnteroFlexible::class) val stockNuevo: Int = 0,
     val fecha: String = "",
     @SerialName("usuario_nombre") val usuarioNombre: String? = null,
-    val usuario: String? = null
+    @Serializable(with = TextoFlexible::class) val usuario: String? = null
 )
 
 @Serializable

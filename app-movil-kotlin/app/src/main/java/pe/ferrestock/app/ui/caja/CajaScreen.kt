@@ -37,11 +37,11 @@ private enum class VistaCaja(val texto: String) {
 }
 
 @Composable
-fun CajaScreen(estado: UiState<CajaEstado>, onReintentar: () -> Unit) {
+fun CajaScreen(estado: UiState<CajaEstado>, onReintentar: () -> Unit, onMenu: () -> Unit) {
     var vista by rememberSaveable { mutableStateOf(VistaCaja.ABIERTOS) }
 
     Column(Modifier.fillMaxSize()) {
-        Encabezado("Caja", "Turnos y anulaciones")
+        Encabezado("Caja", "Turnos y anulaciones", onMenu = onMenu)
         ChipsFiltro(
             opciones = VistaCaja.entries,
             seleccion = vista,
@@ -82,7 +82,7 @@ private fun TarjetaTurno(turno: TurnoVista) {
             Column(Modifier.weight(1f)) {
                 Text(turno.usuarioNombre, style = MaterialTheme.typography.titleMedium)
                 Text(
-                    "Turno #${turno.idTurno} · ${turno.apertura}${turno.cierre?.takeIf { it.isNotBlank() }?.let { " a $it" } ?: ""}",
+                    "Desde ${turno.apertura}${turno.cierre?.takeIf { it.isNotBlank() }?.let { " a $it" } ?: ""}",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -116,7 +116,7 @@ private fun ListaAnuladas(ventas: List<VentaVista>) {
             Tarjeta {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text("Venta #${venta.idVenta}", style = MaterialTheme.typography.titleMedium)
+                        Text(venta.comprobante, style = MaterialTheme.typography.titleMedium)
                         Text(
                             "${venta.fechaHora} · ${venta.usuarioNombre}",
                             style = MaterialTheme.typography.labelMedium,

@@ -5,16 +5,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRequest(
-    val username: String,
+    @SerialName("usuario") val username: String,
     val password: String
+)
+
+@Serializable
+data class UsuarioLoginDto(
+    val id: Int? = null,
+    val nombre: String? = null,
+    val usuario: String? = null,
+    val rol: String? = null
 )
 
 @Serializable
 data class LoginResponse(
     val access: String,
     val refresh: String? = null,
-    val usuario: String? = null,
-    val username: String? = null,
-    val rol: String? = null,
-    @SerialName("rol_nombre") val rolNombre: String? = null
+    val usuario: UsuarioLoginDto? = null
 )

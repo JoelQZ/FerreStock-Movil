@@ -34,6 +34,7 @@ data class TurnoVista(
 
 data class VentaVista(
     val idVenta: Int,
+    val comprobante: String,
     val fechaHora: String,
     val total: Double,
     val estado: String,

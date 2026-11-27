@@ -8,7 +8,7 @@ data class TurnoDto(
     @SerialName("id_turno") val idTurno: Int? = null,
     val id: Int? = null,
     @SerialName("usuario_nombre") val usuarioNombre: String? = null,
-    val usuario: String? = null,
+    @Serializable(with = TextoFlexible::class) val usuario: String? = null,
     val apertura: String = "",
     @SerialName("monto_inicial") val montoInicial: String = "0.00",
     val cierre: String? = null,
@@ -31,6 +31,9 @@ data class VentaDto(
     val fecha: String? = null,
     val total: String = "0.00",
     val estado: String = "COMPLETADA",
+    @SerialName("tipo_comprobante_nombre") val tipoComprobante: String? = null,
+    val serie: String? = null,
+    val numero: Int? = null,
     @SerialName("usuario_nombre") val usuarioNombre: String? = null,
-    val usuario: String? = null
+    @Serializable(with = TextoFlexible::class) val usuario: String? = null
 )

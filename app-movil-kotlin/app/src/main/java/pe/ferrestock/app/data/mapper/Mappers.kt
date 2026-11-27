@@ -71,8 +71,8 @@ fun formatearFecha(iso: String?): String {
 }
 
 fun LoginResponse.toDomain(): Sesion {
-    val userStr = usuario ?: username ?: ""
-    val rolStr = rol ?: rolNombre ?: ""
+    val userStr = usuario?.usuario ?: ""
+    val rolStr = usuario?.rol ?: ""
     return Sesion(
         token = access,
         usuario = userStr,
@@ -165,6 +165,11 @@ fun VentaDto.aVista(): VentaVista {
     val user = usuarioNombre ?: usuario ?: ""
     return VentaVista(
         idVenta = vid,
+        comprobante = if (serie != null && numero != null) {
+            listOfNotNull(tipoComprobante, "$serie-${numero.toString().padStart(8, '0')}").joinToString(" ")
+        } else {
+            "Venta N.º ${vid.toString().padStart(6, '0')}"
+        },
         fechaHora = formatearFecha(fechaHora ?: fecha),
         total = total.toDoubleOrNull() ?: 0.0,
         estado = estado,

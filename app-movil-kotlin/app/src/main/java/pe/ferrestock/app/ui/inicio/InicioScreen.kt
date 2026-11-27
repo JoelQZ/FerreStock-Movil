@@ -14,18 +14,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import pe.ferrestock.app.domain.model.ProductoMasVendidoVista
@@ -60,14 +57,11 @@ fun InicioScreen(
     estado: UiState<InicioEstado>,
     periodo: Periodo,
     onPeriodo: (Periodo) -> Unit,
-    onReintentar: () -> Unit
+    onReintentar: () -> Unit,
+    onMenu: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
-        Encabezado("Inicio", "Hola, $nombre") {
-            IconButton(onClick = onReintentar) {
-                Icon(Icons.Outlined.Refresh, contentDescription = "Actualizar", tint = Color.White)
-            }
-        }
+        Encabezado("Inicio", "Hola, $nombre", onMenu = onMenu)
         ChipsFiltro(
             opciones = Periodo.entries,
             seleccion = periodo,
